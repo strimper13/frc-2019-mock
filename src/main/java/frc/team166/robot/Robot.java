@@ -1,21 +1,15 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.team166.robot;
 
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DriverStation;
+
 import edu.wpi.first.wpilibj.TimedRobot;
+
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.team166.chopshoplib.commands.CommandChain;
+
+import frc.team166.robot.subsystems.Drive;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,10 +19,14 @@ import frc.team166.chopshoplib.commands.CommandChain;
  * project.
  */
 public class Robot extends TimedRobot {
+
+    public static final Drive drive = new Drive();
     public static OI m_oi;
 
     Command m_autonomousCommand;
     SendableChooser<Command> m_chooser = new SendableChooser<>();
+    Command driveCommand;
+    SendableChooser<Command> driveChooser = new SendableChooser<>();
 
     /**
      * This function is run when the robot is first started up and should be used
@@ -37,6 +35,13 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         m_oi = new OI();
+        // m_chooser.addDefault("Default Auto", drive.DriveTime(3, 0.6));
+
+        driveChooser.addDefault("Xbox Drive", drive.XboxArcade());
+
+        SmartDashboard.putData("Auto mode", m_chooser);
+        CameraServer.getInstance().startAutomaticCapture();
+        SmartDashboard.putData("Drive Type", driveChooser);
     }
 
     /**
@@ -46,6 +51,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit() {
+
     }
 
     @Override
@@ -98,6 +104,12 @@ public class Robot extends TimedRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         //
+        // create timer that goes up evry seond.
+        driveCommand = driveChooser.getSelected();
+        if (driveCommand != null) {
+            driveCommand.start();
+        }
+
     }
 
     /**
