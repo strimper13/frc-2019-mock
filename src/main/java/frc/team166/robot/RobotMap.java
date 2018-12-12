@@ -13,7 +13,7 @@ public class RobotMap {
         // changes motor ports into integers
 
         public final static int LEFT = 3;
-        public final static int RIGHT = 4;
+        public final static int RIGHT = 8;
 
         public final static int ROLLER_LEFT = 3;
         public final static int ROLLER_RIGHT = 2;

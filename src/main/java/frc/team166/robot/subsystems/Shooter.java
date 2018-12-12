@@ -24,46 +24,34 @@ import edu.wpi.first.wpilibj.I2C.Port;
 /**
  * An example subsystem. You can replace me with your own Subsystem.
  */
-public class Drive extends Subsystem {
+public class Shooter extends Subsystem {
 
-    WPI_VictorSPX m_left = new WPI_VictorSPX(RobotMap.CAN.LEFT);
-    WPI_VictorSPX m_right = new WPI_VictorSPX(RobotMap.CAN.RIGHT);
+    WPI_VictorSPX m_leftshoot = new WPI_VictorSPX(RobotMap.CAN.LEFT);
+    WPI_VictorSPX m_rightshoot = new WPI_VictorSPX(RobotMap.CAN.RIGHT);
 
     /**
      * defines the left and right motors defined above into a differential drive
      * that can be used for arcade and tank drive, amung other things
      */
-    DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
+    DifferentialDrive m_shooter = new DifferentialDrive(m_leftshoot, m_rightshoot);
 
-    public Drive() {
+    public Shooter() {
 
-        // SmartDashboard.putData("XBox", XboxArcade());
-        // SmartDashboard.putData("Turn -45", TurnByDegrees(-45));
-        // SmartDashboard.putData("Turn 45", TurnByDegrees(45));
-        // SmartDashboard.putData("Drive 2s", DriveTime(2, .6));
-        // SmartDashboard.putData("Drive Box", DriveBox());
-
-        addChild(m_drive);
-
-        // Encoder Position is the current, cumulative position of your encoder. If
-        // you're using an SRX, this will be the
-        // 'getEncPosition' function.
+        addChild(m_shooter);
 
     }
 
-    // the default command for this code is supposed to rotate the robot so that
-    // it's gyro value is 0
     public void initDefaultCommand() {
-        setDefaultCommand(XboxArcade());
+        setDefaultCommand(ShooterHandControl());
 
     }
 
     public void reset() {
-        m_drive.stopMotor();
+        m_shooter.stopMotor();
     }
 
-    public Command XboxArcade() {
-        return new SubsystemCommand("XBoxArcade", this) {
+    public Command ShooterHandControl() {
+        return new SubsystemCommand("ShooterHandControl", this) {
             @Override
             protected boolean isFinished() {
                 return false;
@@ -71,10 +59,10 @@ public class Drive extends Subsystem {
 
             @Override
             protected void execute() {
-                m_drive.arcadeDrive(
-                        (Robot.m_oi.xBoxDrive.getTriggerAxis(Hand.kRight)
-                                - Robot.m_oi.xBoxDrive.getTriggerAxis(Hand.kLeft)),
-                        Robot.m_oi.xBoxDrive.getX(Hand.kLeft));
+                // m_shooter.arcadeDrive(
+                // (Robot.m_oi.xBoxDrive.getTriggerAxis(Hand.kRight)
+                // - Robot.m_oi.xBoxDrive.getTriggerAxis(Hand.kLeft)),
+                // Robot.m_oi.xBoxDrive.getX(Hand.kLeft));
 
             }
 
