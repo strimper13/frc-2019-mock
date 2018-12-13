@@ -74,7 +74,7 @@ public class Drive extends Subsystem {
                 m_drive.arcadeDrive(
                         (Robot.m_oi.xBoxDrive.getTriggerAxis(Hand.kRight)
                                 - Robot.m_oi.xBoxDrive.getTriggerAxis(Hand.kLeft)),
-                        -Robot.m_oi.xBoxDrive.getX(Hand.kLeft));
+                        Robot.m_oi.xBoxDrive.getX(Hand.kLeft));
 
             }
 
